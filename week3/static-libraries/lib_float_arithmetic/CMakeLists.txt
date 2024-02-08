@@ -5,19 +5,21 @@ set(LIB_DIR ./lib)
 cmake_minimum_required(VERSION 3.10)
 
 # Define the project name and version
-project(IntArithmeticLibrary VERSION 1.0)
+project(FloatArithmeticLibrary VERSION 1.0)
 
 # Specify the C standard
 set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED True)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add an executable for the main program
-add_executable(integer_math ${SRC_DIR}/main.c)
+add_executable(float_math ${SRC_DIR}/main.c)
 
-file(GLOB C_FILES ${LIB_DIR}/*.c )
+file(GLOB CPP_FILES ${LIB_DIR}/*.cpp )
 
 # Add library source files
-add_library(intarithmetic STATIC ${C_FILES})
+add_library(floatarithmetic STATIC ${CPP_FILES})
 
 # Link the example program with the static library
-target_link_libraries(integer_math intarithmetic)
+target_link_libraries(float_math floatarithmetic)
