@@ -9,5 +9,5 @@
 # Links
 
 - Github Repo URL: <https://github.com/eliteabhi/embedded-assignments/tree/main>
-- Github Repo SSH Address: <git@github.com:eliteabhi/embedded-assignments.git>
+- Github Repo SSH Address: git@github.com:eliteabhi/embedded-assignments.git
 - Docker Hub Image: eliteabhi/static-libs:latest
