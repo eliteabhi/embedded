@@ -1,6 +1,6 @@
-FROM alpine:latest
+FROM ubuntu:latest
 
-RUN apk add --no-cache build-base cmake && mkdir -p /lib_math/build
+RUN apt-get update && apt-get install -y build-essential cmake && mkdir -p /lib_math/build
 
 WORKDIR /lib_math/build
 
@@ -8,4 +8,4 @@ ADD ./libs.tar ./CMakeLists.txt ./main.c ../
 
 RUN cmake .. && make
 
-ENTRYPOINT [ "./lib_math" ]
+CMD [ "./lib_math" ]
