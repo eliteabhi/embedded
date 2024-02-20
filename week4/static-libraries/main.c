@@ -2,51 +2,70 @@
 #include "lib_float_arithmetic/lib/float_arithmetic.h"
 #include <stdio.h>
 
+enum OPS_t {
+
+    ADD = '+',
+    SUB = '-',
+    MUL = '*',
+    DIV = '/',
+
+    // Special Ops
+    ABS = 'a',
+    POW = 'p',
+    SQRT = 'q',
+    INV_SQRT = 'i'
+
+} OPS;
+
 int main() {
 
-    int lib, stop, counter;
+    int lib, stop, counter = 0;
     float num_one, num_two, ans = 0.0f;
     char operator;
     char is_float;
     char cont;
-
-    stop = 0;
 
     while( stop == 0 ) {
 
         printf( "Are you going to input any floats? [y/N]: ");
         scanf("%c", &is_float);
 
-        lib = ( is_float == 'y' || is_float == 'Y' ) ? 1 : 0;
+        if ( is_float == 'y' || is_float == 'Y' ) lib = 1;
 
         printf( "Please enter your first number: ");
         scanf("%f", &num_one);
 
         while((getchar()) != '\n');
 
-        printf("\nPlease enter an operator ( +, -, *, / ): ");
+        printf("\nPlease enter an operator ( +, -, *, /, (a)bs, (p)ow, s(q)rt, (i)nv_sqrt ): ");
         scanf("%c", &operator);
 
-        printf( "\nPlease enter your second number: ");
-        scanf("%f", &num_two);
+        if ( (int) operator > 64  && operator != POW ) lib = 1;
+
+        else {
+
+            printf( "\nPlease enter your second number: ");
+            scanf("%f", &num_two);
+
+        }
 
         if ( !lib ) {
 
             switch( operator ) {
 
-                case ( '+' ):
+                case ( ADD ):
                     ans = add( num_one, num_two );
                     break;
 
-                case ( '-' ):
+                case ( SUB ):
                     ans = sub( num_one, num_two );
                     break;
 
-                case ( '*' ):
+                case ( MUL ):
                     ans = mul( num_one, num_two );
                     break;
 
-                case ( '/' ):
+                case ( DIV ):
                     ans = div( num_one, num_two );
                     break;
             
@@ -58,21 +77,36 @@ int main() {
 
             switch( operator ) {
 
-                case ( '+' ):
+                case ( ADD ):
                     ans = f_add( num_one, num_two );
                     break;
 
-                case ( '-' ):
+                case ( SUB ):
                     ans = f_sub( num_one, num_two );
                     break;
 
-                case ( '*' ):
+                case ( MUL ):
                     ans = f_mul( num_one, num_two );
                     break;
 
-                case ( '/' ):
+                case ( DIV ):
                     ans = f_div( num_one, num_two );
                     break;
+
+                case ( ABS ):
+                    ans = f_fabs( num_one );
+                    break;
+                
+                case ( POW ):
+                    ans = f_pow( num_one, (int) num_two );
+                    break;
+
+                case ( SQRT ):
+                    ans = f_sqrt( num_one );
+                    break;
+
+                case ( INV_SQRT ):
+                    ans = f_inv_sqrt( num_one );
                 
             }
 
@@ -80,7 +114,34 @@ int main() {
 
         if ( lib ) {
 
-            printf( "\n%0.2f %c %0.2f = %0.2f", num_one, operator, num_two, ans );
+            if ( (int) operator > 64 ) {
+                
+                switch ( operator ) {
+
+                    case ( ABS ):
+                        printf( "\n| %0.2f | = %0.2f", num_one, ans );
+                    break;
+                
+                case ( POW ):
+                        printf( "\n%0.2f ^ ( %0.2f ) = %0.2f", num_one, num_two, ans );
+                    break;
+
+                case ( SQRT ):
+                        printf( "\nsqrt( %0.2f ) = %0.2f", num_one, ans );
+                    break;
+
+                case ( INV_SQRT ):
+                        printf( "\n1 / sqrt( %0.2f ) = %0.2f", num_one, ans );
+
+                }
+            
+            }
+
+            else {
+
+                printf( "\n%0.2f %c %0.2f = %0.2f", num_one, operator, num_two, ans );
+
+            }
 
         }
 

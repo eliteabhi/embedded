@@ -203,6 +203,30 @@ lib_float_arithmetic/lib/divide_float.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/floatarithmetic.dir/build.make CMakeFiles/floatarithmetic.dir/lib_float_arithmetic/lib/divide_float.cpp.s
 .PHONY : lib_float_arithmetic/lib/divide_float.cpp.s
 
+lib_float_arithmetic/lib/extra_ops.o: lib_float_arithmetic/lib/extra_ops.cpp.o
+.PHONY : lib_float_arithmetic/lib/extra_ops.o
+
+# target to build an object file
+lib_float_arithmetic/lib/extra_ops.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/floatarithmetic.dir/build.make CMakeFiles/floatarithmetic.dir/lib_float_arithmetic/lib/extra_ops.cpp.o
+.PHONY : lib_float_arithmetic/lib/extra_ops.cpp.o
+
+lib_float_arithmetic/lib/extra_ops.i: lib_float_arithmetic/lib/extra_ops.cpp.i
+.PHONY : lib_float_arithmetic/lib/extra_ops.i
+
+# target to preprocess a source file
+lib_float_arithmetic/lib/extra_ops.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/floatarithmetic.dir/build.make CMakeFiles/floatarithmetic.dir/lib_float_arithmetic/lib/extra_ops.cpp.i
+.PHONY : lib_float_arithmetic/lib/extra_ops.cpp.i
+
+lib_float_arithmetic/lib/extra_ops.s: lib_float_arithmetic/lib/extra_ops.cpp.s
+.PHONY : lib_float_arithmetic/lib/extra_ops.s
+
+# target to generate assembly for a file
+lib_float_arithmetic/lib/extra_ops.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/floatarithmetic.dir/build.make CMakeFiles/floatarithmetic.dir/lib_float_arithmetic/lib/extra_ops.cpp.s
+.PHONY : lib_float_arithmetic/lib/extra_ops.cpp.s
+
 lib_float_arithmetic/lib/multiply_float.o: lib_float_arithmetic/lib/multiply_float.cpp.o
 .PHONY : lib_float_arithmetic/lib/multiply_float.o
 
@@ -388,6 +412,9 @@ help:
 	@echo "... lib_float_arithmetic/lib/divide_float.o"
 	@echo "... lib_float_arithmetic/lib/divide_float.i"
 	@echo "... lib_float_arithmetic/lib/divide_float.s"
+	@echo "... lib_float_arithmetic/lib/extra_ops.o"
+	@echo "... lib_float_arithmetic/lib/extra_ops.i"
+	@echo "... lib_float_arithmetic/lib/extra_ops.s"
 	@echo "... lib_float_arithmetic/lib/multiply_float.o"
 	@echo "... lib_float_arithmetic/lib/multiply_float.i"
 	@echo "... lib_float_arithmetic/lib/multiply_float.s"
