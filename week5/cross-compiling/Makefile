@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /run/media/abhi/Files/School/3rdYear/Semester-II/embedded-assignments/week5/cross-compiling
+CMAKE_SOURCE_DIR = /app
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /run/media/abhi/Files/School/3rdYear/Semester-II/embedded-assignments/week5/cross-compiling
+CMAKE_BINARY_DIR = /app
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -117,17 +117,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named lib_math
+# Target rules for targets named assignment3
 
 # Build rule for target.
-lib_math: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lib_math
-.PHONY : lib_math
+assignment3: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 assignment3
+.PHONY : assignment3
 
 # fast build rule for target.
-lib_math/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lib_math.dir/build.make CMakeFiles/lib_math.dir/build
-.PHONY : lib_math/fast
+assignment3/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/assignment3.dir/build.make CMakeFiles/assignment3.dir/build
+.PHONY : assignment3/fast
 
 #=============================================================================
 # Target rules for targets named intarithmetic
@@ -352,7 +352,7 @@ main.o: main.c.o
 
 # target to build an object file
 main.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lib_math.dir/build.make CMakeFiles/lib_math.dir/main.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/assignment3.dir/build.make CMakeFiles/assignment3.dir/main.c.o
 .PHONY : main.c.o
 
 main.i: main.c.i
@@ -360,7 +360,7 @@ main.i: main.c.i
 
 # target to preprocess a source file
 main.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lib_math.dir/build.make CMakeFiles/lib_math.dir/main.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/assignment3.dir/build.make CMakeFiles/assignment3.dir/main.c.i
 .PHONY : main.c.i
 
 main.s: main.c.s
@@ -368,7 +368,7 @@ main.s: main.c.s
 
 # target to generate assembly for a file
 main.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lib_math.dir/build.make CMakeFiles/lib_math.dir/main.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/assignment3.dir/build.make CMakeFiles/assignment3.dir/main.c.s
 .PHONY : main.c.s
 
 # Help Target
@@ -379,9 +379,9 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... assignment3"
 	@echo "... doublearithmetic"
 	@echo "... intarithmetic"
-	@echo "... lib_math"
 	@echo "... double_arithmetic/add_double.o"
 	@echo "... double_arithmetic/add_double.i"
 	@echo "... double_arithmetic/add_double.s"

@@ -15,7 +15,7 @@ set(C_LIBRARY intarithmetic)
 set(CPP_LIBRARY doublearithmetic)
 
 # Add source files for the executable
-add_executable(lib_math main.c)
+add_executable(assignment3 main.c)
 
 set(C_LIB_SOURCES
     int_arithmetic/add_int.c
@@ -38,4 +38,4 @@ add_library(${C_LIBRARY} SHARED ${C_LIB_SOURCES})
 add_library(${CPP_LIBRARY} SHARED ${CPP_LIB_SOURCES})
 
 # Link the executable with both C and C++ libraries
-target_link_libraries(lib_math ${C_LIBRARY} ${CPP_LIBRARY})
+target_link_libraries(assignment3 ${C_LIBRARY} ${CPP_LIBRARY})
