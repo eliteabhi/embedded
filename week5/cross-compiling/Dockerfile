@@ -11,5 +11,5 @@ COPY ./envsetup.sh ./entrypoint.sh ./
 
 RUN chmod +x ./*.sh 
 
-ENTRYPOINT ["../envsetup.sh"]
+ENTRYPOINT ["./entrypoint.sh"]
 
