@@ -29,7 +29,8 @@ find_index() {
 
   for i in "${!list[@]}"; do
    if [[ "${list[$i]}" = "${item}" ]]; then
-       return ${i};
+       echo ${i};
+       break;
    fi
   done
 
@@ -37,9 +38,27 @@ find_index() {
 
 if contains COMMAND "--image"; then
 
-  local image_arg_index=$(find_index COMMAND "--image") + 1
+  image_arg_index=$(($(find_index COMMAND "--image") + 1))
 
   CC_IMAGE_NAME="$COMMAND[$image_arg_index]"
+
+  delete_flag_arg="--image"
+  delete_img_arg="$COMMAND[$image_arg_index]"
+
+  COMMAND="${COMMAND[@]/$delete_flag_arg}"
+  COMMAND="${COMMAND[@]/$delete_img_arg}"
+
+fi
+
+if contains COMMAND "--pull-image" || contains COMMAND "-p"; then 
+
+  sudo docker pull ${CC_IMAGE_NAME}
+
+  COMMAND="${COMMAND[@]/$delete_flag_arg}"
+
+  delete_flag_arg="--pull-image"
+
+  COMMAND="${COMMAND[@]/$delete_flag_arg}"
 
 fi
 
@@ -65,14 +84,24 @@ else
 
 fi
 
-if contains COMMAND "--pull-image" || contains "-p"; then 
-
-  sudo docker pull ${CC_IMAGE_NAME}
-
-fi
-
 echo
 echo "Build Command: ${BUILD_COMMAND}"
 echo
-sudo docker run -v "${CWD}:/app" ${CC_IMAGE_NAME} ${BUILD_COMMAND}
+
+echo "Full Command: sudo docker run --rm -v \"${CWD}\":/app -t ${CC_IMAGE_NAME} ${BUILD_COMMAND}"
+echo
+
+echo "Is the command correct?[y/N]: "
+read -sn 1 correct
+
+echo
+
+if [[ $correct == "y" ]]; then
+
+  sudo docker run --rm -v "${CWD}":/app -t ${CC_IMAGE_NAME} ${BUILD_COMMAND}
+
+fi
+
+echo "Have a nice day!!"
+exit 0
 
