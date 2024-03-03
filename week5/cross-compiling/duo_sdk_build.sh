@@ -16,7 +16,7 @@ while getopts i:p: OPTION; do
       CC_IMAGE_NAME="${OPTARG}";;
     
     p)
-      sudo docker pull ${CC_IMAGE_NAME}
+      sudo docker pull ${CC_IMAGE_NAME};;
 
   esac
 done
