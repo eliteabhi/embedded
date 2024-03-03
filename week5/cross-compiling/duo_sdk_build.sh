@@ -6,8 +6,6 @@ IFS=" "
 COMMAND="$*"
 BUILD_COMMAND=""
 
-echo ${COMMAND}
-
 while getopts i:p: OPTION; do
 
   case "${OPTION}" in
@@ -41,7 +39,7 @@ if [[ "$COMMAND" == *"cmake"* ]]; then
 
 else
 
-  BUILD_COMMAND="${COMMAND}"
+  BUILD_COMMAND="cd /app/build && ${COMMAND}"
 
 fi
 
