@@ -30,7 +30,7 @@ const char* char_to_morse( const char letter ) {
 
 const char* translate_to_morse( const char* text, const int text_length, const int buffer_size ) {
 
-  char* morse_output[ buffer_size ];
+  char* morse_output[ buffer_size ] = "";
 
   int buffer_free = 0;
 
@@ -41,7 +41,7 @@ for ( int i = 0; i < text_length; i++ ) {
 
     if ( buffer_free >= 0 && buffer_free < buffer_size ) {
    
-      buffer_free = snprintf( morse_output + buffer_free, buffer_size - buffer_free, "%s\n"%s)
+      buffer_free = snprintf( morse_output + buffer_free, buffer_size - buffer_free, "%s\\", char_to_morse( text[ i ] ) );
   
     }
   

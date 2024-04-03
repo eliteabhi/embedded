@@ -6,9 +6,15 @@ void morse_blink_led( const char* morse, const int morse_size ) {
 
      //! Pseudo Code
 
-    if ( morse[ i ] == '\\' ) {
+    if ( morse[ i ] == ' ' ) {
 
       wait( WORD_SPACE );
+
+    }
+
+    if ( morse[ i ] == '\\' ) {
+
+      wait( LETTER_SPACE );
 
     }
 
@@ -41,10 +47,10 @@ int main( int argc, char** argv ) {
   char morseOutput[ BUFFER_SIZE ] = "";
 
   // Fill in the code for `translate_to_morse`
-  morseOutput = translate_to_morse( text, text_length, BUFFER_SIZE);
+  morseOutput = translate_to_morse( text, text_length, BUFFER_SIZE );
   printf( "Morse Code: %s\n", morseOutput );
 
-  // Passe `morseOutput` to the morse_blink_led function
+  // Pass `morseOutput` to the morse_blink_led function
   // Update the morse_blink_led to blink accordingly
   morse_blink_led( morseOutput );
 
