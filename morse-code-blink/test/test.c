@@ -1,4 +1,4 @@
-#include <test.h>
+#include "test.h"
 
 extern int mock_delay_called;
 extern int mock_delay_duration;
@@ -18,8 +18,8 @@ void tearDown(void)
 // Test function for normal alphabetic input
 void test_AlphabeticInput(void)
 {
-    char output[100];
-    output = translate_to_morse( "hello", 5, 100 );
+    char output[100] = "";
+    translate_to_morse( "hello", output, 99 );
 
     // hello
     char *expected = ".... . .-.. .-.. ---";
@@ -30,7 +30,7 @@ void test_AlphabeticInput(void)
 // Test function for numeric input
 void test_NumericInput(void)
 {
-    char output[100];
+    char output[100] = "";
     // Add test code for numeric input such as "123"
     translate_to_morse("123", output, 99);
 
@@ -43,7 +43,7 @@ void test_NumericInput(void)
 // Test function for mixed alphanumeric input
 void test_MixedAlphanumericInput(void)
 {
-    char output[100];
+    char output[100] = "";
     // Add test code for numeric input such as "abc123"
     translate_to_morse("abc123", output, 99);
 
@@ -56,7 +56,7 @@ void test_MixedAlphanumericInput(void)
 // Test function for mixed case input
 void test_MixedCaseAlphanumericInput(void)
 {
-    char output[100];
+    char output[100] = "";
     // Add test code for numeric input such as "AbC123"
     translate_to_morse("AbC123", output, 99);
 
@@ -69,7 +69,7 @@ void test_MixedCaseAlphanumericInput(void)
 // Test function for words with spaces
 void test_CanHandleSpaces(void)
 {
-    char output[100];
+    char output[100] = "";
     // Add test code for numeric input such as "AbC123"
     translate_to_morse("Hello World", output, 99);
 
@@ -83,7 +83,7 @@ void test_CanHandleSpaces(void)
 void test_NonRepresentableBinaryData(void)
 {
     // Nothing to do here, just showing example
-    char output[100];
+    char output[100] = "";
     char binaryData[] = {0x00, 0xFF, 0x55, 0x7F}; // Example binary data
     translate_to_morse(binaryData, output, 99);
     // Since Morse code is not defined for arbitrary binary data, we need to define expected behavior.
@@ -96,10 +96,10 @@ void test_NonRepresentableBinaryData(void)
 void test_MorseTiming(void)
 {
     // Initialize mock function variables
-    mock_initialize();
+    mock_initialize_led();
 
     // Translate "SOS" to Morse code
-    char output[150];
+    char output[150] = "";
     translate_to_morse("SOS", output, sizeof(output) - 1);
 
     // Blink LED according to Morse code
