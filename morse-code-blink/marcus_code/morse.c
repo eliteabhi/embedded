@@ -41,20 +41,26 @@ void translate_to_morse(const char *text, char *morseOutput, int morseOutputSize
    // charactor to morse code.
    // char_to_morse function is provided above but may not
    // handle all cases.
-  int text_length = strlen( text );
 
+  memset(morseOutput, 0, morseOutputSize);
+  int text_length = strlen( text );
+  
+  printf("%d\n", text_length);
+  
   int index = 0;
   
   for( int i = 0; i < text_length; i++ ) {
 
+    printf("%d\n", i);
+
     char* morse = char_to_morse( text[ i ] );
 
-    sprintf( morseOutput, "%s%s", morseOutput, morse );
-    
+    // sprintf( morseOutput, "%s%s", morseOutput, morse );
+    strcat(morseOutput, morse);
     if ( i < text_length - 1 ) {
 
-    sprintf( morseOutput, "%s ", morseOutput );
-
+    //sprintf( morseOutput, "%s ", morseOutput );
+    strcat(morseOutput, " ");
     }
 
   }
@@ -63,21 +69,25 @@ void translate_to_morse(const char *text, char *morseOutput, int morseOutputSize
 
 void morse_blink_led(const char *morseCode)
 {
+   INIT_LED();
    while(*morseCode){
        switch (*morseCode){
            case '.':
                LED_HIGH();
-               DELAY(1000);
+               DELAY(1);
                LED_LOW();
-               DELAY(1000);
+               DELAY(1);
                break;
            case '-':
-               DELAY(3000);
+               LED_HIGH();
+               DELAY(3);
                LED_LOW();
-               DELAY(1000);
                break;
            case ' ':
-               DELAY(6000);
+               DELAY(3);
+               break;
+           case '/':
+               DELAY(7);
                break;
            default:
                break;
