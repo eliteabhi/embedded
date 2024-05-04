@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
 project(final_project)
 
+set(LIB_DIR ./lib)
+
+include_directories(${LIB_DIR})
+
 # Find cJSON library
 find_library(CJSON_LIB
   NAMES cjson

@@ -1,11 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #include <mosquitto.h>
 #include <cjson/cJSON.h>
+
 #include <ssd1306.h>
 #include <bmp280_i2c.h>
+
+#include <morse.h>
 
 void message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message)
 {
@@ -49,7 +53,7 @@ void message_callback(struct mosquitto *mosq, void *userdata, const struct mosqu
 
                     struct bmp280_i2c bmp = read_temp_pressure();
 
-                    cJSON_AddNumberToObject(result, "temperature", bmp.temperature);
+                    cJSON_AddNumberToObject( result, "temperature", bmp.temperature );
 
                 }
 
@@ -57,7 +61,7 @@ void message_callback(struct mosquitto *mosq, void *userdata, const struct mosqu
 
                     struct bmp280_i2c bmp = read_temp_pressure();
 
-                    cJSON_AddNumberToObject(result, "pressure", bmp.pressure);
+                    cJSON_AddNumberToObject( result, "pressure", bmp.pressure );
 
                 }
 
@@ -78,25 +82,18 @@ void message_callback(struct mosquitto *mosq, void *userdata, const struct mosqu
 
             }
 
+            const cJSON *morse = cJSON_GetObjectItemCaseSensitive(root, "morse");
+            if ( cJSON_IsString( morse ) ) {
 
-            // The above are examples of ways strings and numbers can be sent
-            // via mqtt. You'll need to add support here for additional tasking.
+                char* morse_str = $( morse->valuestring );
 
-            // Add an object named "task". (similar to name)
-            // You'll need to use strncmp or strcmp to check if the valuestring
-            // is "get_temperature" or "get_pressure" or "get_temperature_pressure"
-            // Based on that value, you will use your bmp280 library function
-            // to get the temperature, pressure or both.
-            // Use your ssd1306 library to write the value(s) to the OLED.
+                print_message_on_oled( morse );
 
-            // Add an object named "string_msg". (similiar to name)
-            // This is simply a message that can be printed onto the OLED.
+                printf( "Blinking Builtin LED...\n" );
+                
+                morse_blink_led( morse_str );
 
-            // Add an object named "int_msg". (similiar to number)
-            // This is simply a message that can be printed onto the OLED.
-
-            // Bonus: Add a case for "morse". This will use your morse code project
-            // to blink the led in morse code.
+            }
 
             cJSON_Delete(root);
         }
@@ -121,17 +118,34 @@ void print_message_on_oled( cJSON *message ) {
 
     if ( cJSON_IsString( message ) ) {
 
-        int display_int = message->valueint;
+        float display_num = message->valuedouble;
 
-        char display_int_as_str[2];
+        char display_num_as_str[2];
 
-        ssd1306_oled_write_string( 0, display_int_as_str );
+        if ( fmod( display_num, 1.0 ) != 0.0 ) {
+
+            sprintf( display_num_as_str, "%f", display_num );
+
+        }
+
+        else {
+
+            sprintf( display_num_as_str, "%d", (int) display_num );
+        
+        }
+
+
+        printf("%s%s\n", label, display_num_as_str);
+
+        ssd1306_oled_write_string( 0, display_num_as_str );
 
     }
 
     else if ( cJSON_IsString( message ) ) {
 
         char* display_str = &( message->valuestring );
+
+        printf("%s%s\n", label, display_str );
 
         ssd1306_oled_write_string( 0, display_str );
 
