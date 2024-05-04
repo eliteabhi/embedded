@@ -138,7 +138,7 @@ void message_callback(struct mosquitto *mosq, void *userdata, const struct mosqu
             const cJSON *morse = cJSON_GetObjectItemCaseSensitive(root, "morse");
             if ( cJSON_IsString( morse ) ) { // If values is a string
 
-                char* morse_str = $( morse->valuestring ); // Get morse code as string
+                char* morse_str = &( morse->valuestring ); // Get morse code as string
 
                 print_message_on_oled( morse ); // Print to OLED screen
 
