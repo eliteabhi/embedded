@@ -1,10 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(final_project)
 
-set(LIB_DIR ./lib)
-
-include_directories(${LIB_DIR})
-
 # Find cJSON library
 find_library(CJSON_LIB
   NAMES cjson
@@ -32,6 +28,12 @@ find_library(CRYPTO_LIB
   PATHS "/app/install_cv1800b_openssl/lib"
   NO_DEFAULT_PATH
 )
+
+include_directories(morse_lib)
+include_directories(ssd1306_linux)
+include_directories(wiringX)
+include_directories(bmp280)
+include_directories(morse_lib)
 
 # Check if all libraries were found
 if(NOT CJSON_LIB OR NOT MQTT_LIB OR NOT OPEN_SSL_LIB OR NOT CRYPTO_LIB)
