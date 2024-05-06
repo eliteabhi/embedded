@@ -5,10 +5,12 @@ CWD=$(pwd)
 IFS=" "
 COMMAND="$*"
 BUILD_COMMAND=""
-UID=$(id -u)
-GID=$(id -g)
+_UID=$(id -u)
+_GID=$(id -g)
+MAKE=false
+correct=""
 
-while getopts i:p:u:g:r OPTION; do
+while getopts i:u:g:rya OPTION; do
 
   case "${OPTION}" in
 
@@ -19,57 +21,89 @@ while getopts i:p:u:g:r OPTION; do
       sudo docker pull ${CC_IMAGE_NAME};;
 
     u)
-      UID=${OPTARG};;
+      _UID=${OPTARG};;
 
     g)
-      GID=${OPTARG};;
+      _GID=${OPTARG};;
 
     r)
-      UID=0
-      GID=0;;
+      _UID=0
+      _GID=0;;
+
+    y)
+      correct="y";;
+    
+    a)
+      COMMAND="cmake -DCMAKE_TOOLCHAIN_FILE=/app/milkv_duo.cmake .."
+      MAKE=true;;
+
+    *)
+      echo "Unknown option";;
 
   esac
 done
 
-if [[ "$COMMAND" == *"cmake"* ]]; then
+command_factory () {
 
-  BUILD_COMMAND="rm -rf /app/*CMakeCache* && "
+  if [[ "$COMMAND" == *"cmake"* ]]; then
 
-  if [[ "$COMMAND" == *".."* ]]; then
+    BUILD_COMMAND="rm -rf /app/*CMakeCache* && "
 
-    BUILD_COMMAND="${BUILD_COMMAND}if [[ -d /app/build ]]; then rm -rf /app/build; fi && mkdir -p /app/build && cd /app/build && ${COMMAND}"  
+    if [[ "$COMMAND" == *".."* ]]; then
 
-  elif [[ "$COMMAND" == *"--build"* ]]; then
+      BUILD_COMMAND="${BUILD_COMMAND}if [[ -d /app/build ]]; then rm -rf /app/build; fi && mkdir -p /app/build && cd /app/build && ${COMMAND}"  
 
-    BUILD_COMMAND="${BUILD_COMMAND}cd /app/build && ${COMMAND}"
+    elif [[ "$COMMAND" == *"--build"* ]]; then
+
+      BUILD_COMMAND="${BUILD_COMMAND}cd /app/build && ${COMMAND}"
+
+    else
+
+      BUILD_COMMAND="${BUILD_COMMAND}${COMMAND}"
+
+    fi
 
   else
 
-    BUILD_COMMAND="${BUILD_COMMAND}${COMMAND}"
+    BUILD_COMMAND="cd /app/build && ${COMMAND}"
 
   fi
 
-else
+  echo
+  echo "Build Command: ${BUILD_COMMAND}"
+  echo
+}
 
-  BUILD_COMMAND="cd /app/build && ${COMMAND}"
+exec_command () {
 
-fi
+  echo "Full Command: sudo docker run --rm --user \"${_UID}\":\"${_GID}\" -v \"${CWD}\":/app -t ${CC_IMAGE_NAME} /bin/bash -c \"${BUILD_COMMAND}\""
+  echo
 
-echo
-echo "Build Command: ${BUILD_COMMAND}"
-echo
+  if [[ "$correct" == "" ]]; then
+    
+    read -sn 1 -p "Is the command correct?[y/N]: " correct
+    echo
+    echo
 
-echo "Full Command: sudo docker run --rm --user \"${UID}\":\"${GID}\" -v \"${CWD}\":/app -t ${CC_IMAGE_NAME} /bin/bash -c \"${BUILD_COMMAND}\""
-echo
+  fi
 
-read -sn 1 -p "Is the command correct?[y/N]: " correct
-echo
-echo
+  if [[ "$correct" == "y" ]]; then
 
-if [[ "$correct" == "y" ]]; then
+    sudo docker run --rm --user "${_UID}":"${_GID}" -v "${CWD}":/app -t ${CC_IMAGE_NAME} /bin/bash -c "${BUILD_COMMAND}"
+    ERROR=$?
 
-  sudo docker run --rm --user "${UID}":"${GID}" -v "${CWD}":/app -t ${CC_IMAGE_NAME} /bin/bash -c "${BUILD_COMMAND}"
-  ERROR=$?
+  fi
+
+}
+
+command_factory
+exec_command
+
+if ${MAKE}; then
+
+  COMMAND="make"
+  command_factory
+  exec_command
 
 fi
 
