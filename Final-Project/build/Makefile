@@ -142,6 +142,45 @@ publisher/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/publisher.dir/build.make CMakeFiles/publisher.dir/build
 .PHONY : publisher/fast
 
+#=============================================================================
+# Target rules for targets named morse
+
+# Build rule for target.
+morse: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 morse
+.PHONY : morse
+
+# fast build rule for target.
+morse/fast:
+	$(MAKE) $(MAKESILENT) -f morse/CMakeFiles/morse.dir/build.make morse/CMakeFiles/morse.dir/build
+.PHONY : morse/fast
+
+#=============================================================================
+# Target rules for targets named ssd1306
+
+# Build rule for target.
+ssd1306: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ssd1306
+.PHONY : ssd1306
+
+# fast build rule for target.
+ssd1306/fast:
+	$(MAKE) $(MAKESILENT) -f ssd1306_linux/CMakeFiles/ssd1306.dir/build.make ssd1306_linux/CMakeFiles/ssd1306.dir/build
+.PHONY : ssd1306/fast
+
+#=============================================================================
+# Target rules for targets named bmp280
+
+# Build rule for target.
+bmp280: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 bmp280
+.PHONY : bmp280
+
+# fast build rule for target.
+bmp280/fast:
+	$(MAKE) $(MAKESILENT) -f bmp280/CMakeFiles/bmp280.dir/build.make bmp280/CMakeFiles/bmp280.dir/build
+.PHONY : bmp280/fast
+
 publisher.o: publisher.c.o
 .PHONY : publisher.o
 
@@ -198,7 +237,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... bmp280"
+	@echo "... morse"
 	@echo "... publisher"
+	@echo "... ssd1306"
 	@echo "... subscriber"
 	@echo "... publisher.o"
 	@echo "... publisher.i"

@@ -7,7 +7,7 @@ project(ssd1306)
 # Main executable
 # ssd1306_bin is the binary name
 # main.c is the primary source file
-add_executable(ssd1306_bin main.c)
+# add_executable(ssd1306_bin main.c)
 
 # SSD1306 static library
 # ssd1306 is the library name
@@ -21,10 +21,10 @@ add_library(ssd1306 STATIC ssd1306.c linux_i2c.c)
 # STATIC creates static library (libssd1306_shared.so)
 # ssd1306.c is the library source file
 # linux_i2c.c is the interface code for i2c
-add_library(ssd1306_shared SHARED ssd1306.c linux_i2c.c)
+# add_library(ssd1306_shared SHARED ssd1306.c linux_i2c.c)
 
 # Link the static library
-target_link_libraries(ssd1306_bin ssd1306)
+# target_link_libraries(ssd1306_bin ssd1306)
 
 # Link the shared library
 # If you wanted to use the shared library, then use this instead

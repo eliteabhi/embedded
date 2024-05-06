@@ -29,11 +29,14 @@ find_library(CRYPTO_LIB
   NO_DEFAULT_PATH
 )
 
-include_directories(morse_lib)
+include_directories(morse)
 include_directories(ssd1306_linux)
-include_directories(wiringX)
 include_directories(bmp280)
-include_directories(morse_lib)
+include_directories(wiringX)
+
+add_subdirectory(morse)
+add_subdirectory(ssd1306_linux)
+add_subdirectory(bmp280)
 
 # Check if all libraries were found
 if(NOT CJSON_LIB OR NOT MQTT_LIB OR NOT OPEN_SSL_LIB OR NOT CRYPTO_LIB)
@@ -46,5 +49,5 @@ add_executable(subscriber subscriber.c)
 add_executable(publisher publisher.c)
 
 # Link libraries
-target_link_libraries(subscriber ${CJSON_LIB} ${MQTT_LIB} ${OPEN_SSL_LIB} ${CRYPTO_LIB})
+target_link_libraries(subscriber ${CJSON_LIB} ${MQTT_LIB} ${OPEN_SSL_LIB} ${CRYPTO_LIB} morse ssd1306 bmp280)
 target_link_libraries(publisher ${CJSON_LIB} ${MQTT_LIB} ${OPEN_SSL_LIB} ${CRYPTO_LIB})
