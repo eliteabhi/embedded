@@ -11,6 +11,53 @@
 
 #include <morse.h>
 
+void print_message_on_oled( const cJSON *message ) { // Prints message onto OLED screen
+
+    char* label = message->string; // Get key 'label' from json object
+
+    strcat( label, ": " ); // Append ': '
+
+    ssd1306_oled_write_string( 0, label ); // Print 'label' onto OLED screen
+
+    if ( cJSON_IsNumber( message ) ) { // If value is a double
+
+        double display_num = message->valuedouble; // Get value from json object
+
+        char display_num_as_str[2]; // NULL string object of length 1 + '\0'
+
+        if ( fmod( display_num, 1.0 ) != 0.0 ) { // If not integer
+
+            sprintf( display_num_as_str, "%f", display_num ); // Cast as float
+
+        }
+
+        else {
+
+            sprintf( display_num_as_str, "%d", (int) display_num ); // Cast as int
+        
+        }
+
+
+        printf("%s%s\n", label, display_num_as_str); // Log to terminal
+
+        ssd1306_oled_write_string( 0, display_num_as_str ); // Print value to OLED screen
+
+    }
+
+    else if ( cJSON_IsString( message ) ) { // If value is a string
+
+        char* display_str = message->valuestring; // Get value from json object
+
+        printf("%s%s\n", label, display_str ); // Log to terminal
+
+        ssd1306_oled_write_string( 0, display_str ); // Print value to OLED screen
+
+    }
+
+    ssd1306_oled_write_string( 0, "\n" ); // Print NewLine to OLED screen
+
+}
+
 void message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message)
 {
     ssd1306_oled_clear_screen(); // Clear OLED screen
@@ -138,7 +185,7 @@ void message_callback(struct mosquitto *mosq, void *userdata, const struct mosqu
             const cJSON *morse = cJSON_GetObjectItemCaseSensitive(root, "morse");
             if ( cJSON_IsString( morse ) ) { // If values is a string
 
-                char* morse_str = &( morse->valuestring ); // Get morse code as string
+                char* morse_str = morse->valuestring; // Get morse code as string
 
                 print_message_on_oled( morse ); // Print to OLED screen
 
@@ -170,53 +217,6 @@ void message_callback(struct mosquitto *mosq, void *userdata, const struct mosqu
         printf("%s (null)\n", message->topic);
     }
     
-}
-
-void print_message_on_oled( cJSON *message ) { // Prints message onto OLED screen
-
-    char* label = message->string; // Get key 'label' from json object
-
-    strcat( label, ": " ); // Append ': '
-
-    ssd1306_oled_write_string( 0, label ); // Print 'label' onto OLED screen
-
-    if ( cJSON_IsNumber( message ) ) { // If value is a double
-
-        double display_num = message->valuedouble; // Get value from json object
-
-        char display_num_as_str[2]; // NULL string object of length 1 + '\0'
-
-        if ( fmod( display_num, 1.0 ) != 0.0 ) { // If not integer
-
-            sprintf( display_num_as_str, "%f", display_num ); // Cast as float
-
-        }
-
-        else {
-
-            sprintf( display_num_as_str, "%d", (int) display_num ); // Cast as int
-        
-        }
-
-
-        printf("%s%s\n", label, display_num_as_str); // Log to terminal
-
-        ssd1306_oled_write_string( 0, display_num_as_str ); // Print value to OLED screen
-
-    }
-
-    else if ( cJSON_IsString( message ) ) { // If value is a string
-
-        char* display_str = &( message->valuestring ); // Get value from json object
-
-        printf("%s%s\n", label, display_str ); // Log to terminal
-
-        ssd1306_oled_write_string( 0, display_str ); // Print value to OLED screen
-
-    }
-
-    ssd1306_oled_write_string( 0, "\n" ); // Print NewLine to OLED screen
-
 }
 
 int main(int argc, char *argv[])
