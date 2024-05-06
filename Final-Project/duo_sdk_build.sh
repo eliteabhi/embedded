@@ -3,22 +3,19 @@
 CC_IMAGE_NAME="ejortega/duo-sdk:latest"
 CWD=$(pwd)
 IFS=" "
-COMMAND="$*"
-BUILD_COMMAND=""
 _UID=$(id -u)
 _GID=$(id -g)
 MAKE=false
+AUTO=false
+YES=false
 correct=""
 
-while getopts i:u:g:rya OPTION; do
+while getopts i:u:g:ryap OPTION; do
 
   case "${OPTION}" in
 
     i)
       CC_IMAGE_NAME="${OPTARG}";;
-    
-    p)
-      sudo docker pull ${CC_IMAGE_NAME};;
 
     u)
       _UID=${OPTARG};;
@@ -31,17 +28,38 @@ while getopts i:u:g:rya OPTION; do
       _GID=0;;
 
     y)
+      YES=true
       correct="y";;
     
     a)
+      AUTO=true
       COMMAND="cmake -DCMAKE_TOOLCHAIN_FILE=/app/milkv_duo.cmake .."
       MAKE=true;;
+        
+    p)
+      sudo docker pull ${CC_IMAGE_NAME};;
 
     *)
       echo "Unknown option";;
 
   esac
 done
+
+if not $AUTO; then
+  
+  shift $((OPTIND - 1))
+  COMMAND="$*"
+
+  if [[ $COMMAND == "" ]]; then
+    
+    echo "ERROR: No command specified"
+    exit 1;
+
+  fi
+
+fi
+
+BUILD_COMMAND=""
 
 command_factory () {
 
@@ -102,6 +120,7 @@ exec_command
 if ${MAKE}; then
 
   COMMAND="make"
+  if not $YES; then correct=""; fi
   command_factory
   exec_command
 
