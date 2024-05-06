@@ -5,7 +5,7 @@
 // 2.) set the led to high
 // 3.) set the led to low
 
-#if defined(RELEASE) || defined(DEBUG)
+// #if defined(RELEASE) || defined(DEBUG)
 // Write code to enable led
 void initialize_led()
 {
@@ -38,20 +38,20 @@ void turn_off_led()
    digitalWrite(LED_PIN, LOW);
 }
 
-#endif
+// #endif
 
 // This code that helps with testing
 // no need to change unles you
 // want to completely customize
-void mock_initialize_led()
-{
-   printf("Mock Initialize LED\n");
-}
-void mock_led_high()
-{
-   printf("Mock LED ON\n");
-}
-void mock_led_low()
-{ 
-   printf("Mock LED OFF\n");
-}
+// void mock_initialize_led()
+// {
+//    printf("Mock Initialize LED\n");
+// }
+// void mock_led_high()
+// {
+//    printf("Mock LED ON\n");
+// }
+// void mock_led_low()
+// { 
+//    printf("Mock LED OFF\n");
+// }
