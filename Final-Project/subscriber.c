@@ -148,7 +148,7 @@ void message_callback(struct mosquitto *mosq, void *userdata, const struct mosqu
 
                 }
 
-                else if ( strstr( task_str, "pressure" ) != NULL ) { // If task contains 'pressure'
+                if ( strstr( task_str, "pressure" ) != NULL ) { // If task contains 'pressure'
 
                     struct bmp280_i2c bmp = read_temp_pressure(); // Get values from BMP280
 
